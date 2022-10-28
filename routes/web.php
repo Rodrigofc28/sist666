@@ -87,3 +87,4 @@ Route::post('calibres', 'Perito\CalibresController@store')->name('perito.calibre
 Route::post('origens', 'Perito\OrigensController@store')->name('perito.origens.store');
 Route::resource('cadastros','CadastrarusuarioController');
 Route::post('cadastros.store', 'CadastrarusuarioController@store');
+Route::post('/cadastros/{usuario}', 'CadastrarusuarioController@destroy')->name('cadastros.destroy');

@@ -27,10 +27,11 @@ class UsersController extends Controller
      */
     public function index( )
     {   
-        
+        $cargos = Cargo::all();
+        $secoes = Secao::all();
         $usuarios=cadastrousuario::all();
         $users = User::paginate(10);
-        return view('admin.users.index', compact('users','usuarios'));
+        return view('admin.users.index', compact('users','usuarios','cargos', 'secoes'));
     }
 
     /**
@@ -77,8 +78,10 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
-    {
-        User::destroy($user->id);
+    {   
+       
+        
+        User::destroy($user->usuario);
         return response()->json(['success' => 'done']);
     }
 
@@ -89,8 +92,11 @@ class UsersController extends Controller
             return response()->json(['fail' => 'true',
             'message' => 'Nenhum usuário encontrado em este nome (' . $nome . ')']);
         } else {
-            $user_id = $user->id;
-            return response()->json(['url' => route('users.edit', $user_id)]);
+            
+           return response()->json(['fail' => 'true',
+            'message' => ' usuário encontrado com este nome: ' . $user->nome . ' E-mail: '.$user->email. ' data do cadastro: '.$user->created_at]);
         }
     }
+
+
 }

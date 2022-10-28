@@ -1,5 +1,5 @@
 <div class="col-lg-{{ $size ?? "12" }} mt-2">
-    <label for="cargo_id">Cargo *</label>
+    <label for="cargo_id"></label>
     <select class="js-single form-control {{ $errors->has('cargo_id') ? ' is-invalid' : '' }}" name="cargo_id">
         @foreach($cargos as $cargo)
         <option value="{{ $cargo->id }}" {{ $cargo->id == $cargo2 ? 'selected=selected' : '' }}>

@@ -6,12 +6,14 @@ use App\Http\Requests\UserRequest;
 use App\Models\Cargo;
 use App\Models\Secao;
 use App\Models\User;
+use App\Models\cadastrousuario;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
+use App\Http\Requests\cadastroRequest;
+use Illuminate\Http\Request;
 class RegisterController extends Controller
 {
 
@@ -40,7 +42,8 @@ class RegisterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showRegistrationForm()
-    {
+    {   
+        
         $cargos = Cargo::all();
         $secoes = Secao::all();
         return view('admin/users/create', compact('cargos', 'secoes'));
@@ -54,8 +57,9 @@ class RegisterController extends Controller
      */
     public function register(UserRequest $request)
     {
+        
         event(new Registered($user = $this->create($request->all())));
-
+        
         return redirect()->route('users.index')
             ->with('success', __('flash.create_m', ['model' => 'Usuário']));
     }
@@ -75,5 +79,17 @@ class RegisterController extends Controller
             'cargo_id' => $data['cargo_id'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param cadastrousuario $user
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(cadastrousuario $usuario)
+    {   
+        cadastrousuario::destroy($usuario->id);
+       
+        return response()->json(['success' => 'done']);
     }
 }

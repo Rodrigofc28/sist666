@@ -18,8 +18,7 @@ class CadastroUsuario extends Migration
             $table->string('nome', 80);
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('cargo_id');
-            $table->string('secao_id');
+            
             $table->timestamps();
           
             

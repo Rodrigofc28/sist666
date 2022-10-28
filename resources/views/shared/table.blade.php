@@ -9,7 +9,7 @@
             @if ($habilitar_pesquisa)
 
             <input type="text" class="form-control search-input" placeholder="{{ $pesquisar }}"
-                aria-label="{{ $pesquisar }}" aria-describedby="basic-addon2" required>
+                aria-label="{{ $pesquisar }}" aria-describedby="basic-addon2" >
             <div class="input-group-append">
 
                 <button class="btn btn-outline-secondary search-button" type="button" value="{{$route_search_name}}">
@@ -27,7 +27,9 @@
                     @foreach ($ths as $th)
                     <th>{{ $th }}</th>
                     @endforeach
-                    <th>Ações</th>
+                    <th>Cadastrar usuário</th>
+                    <th>Deletar pedido do usuário</th>
+                    
                 </tr>
             </thead>
             <tbody align="center" class="table-search">
@@ -36,5 +38,5 @@
         </table>
     </div>
 </div>
-@include('shared.pagination_results', ['dados' => $dados])
+
 @endsection

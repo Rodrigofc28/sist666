@@ -1,29 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Solicitação de cadastro</title>
+</head>
+<body>
+        <div>
+                <div >
 
-<div class="col-8">
-
-        <h4>Pedir solicitação de Cadastro</h4>
-    </div>
-
-    <form  action="{{ route('cadastros.store') }}" method="POST">
-                {{ csrf_field() }}
-        <label for="nome">Nome:</label>
-        <input type="text" name="nome" id="nome"    riquered><br>
-        <label for="cargo">Cargo:</label>
-        <input type="text" name="cargo_id" id="cargo" riquered><br>
-        <label for="secao">Seção:</label>
-        <input type="text" name="secao_id" id="secao" riquered><br>
-        <label for="email">Email:</label>
-        <input type="email" name="email" id="email" riquered><br>
-        <label for="password1">Senha:</label>
-        <input type="password" name="password" id="senha" riquered><br>
+                        <h1>Polícia científica do paraná</h1>
+                        <img src="image/logo.jpg" alt="">    
+                        <h3>Pedir solicitação de Cadastro</h3>
+                        
+                        <form  action="{{ route('cadastros.store') }}" method="POST">
+                                {{ csrf_field() }}
+                                <label for="nome">Nome:</label>
+                                <input type="text" name="nome" id="nome" required><br>
+                                <label for="email">Email:</label>
+                                <input type="email" name="email" id="email" requered><br>
+                                <label for="password1">Senha:</label>
+                                <input type="password" name="password" id="senha" requered><br>
+                                <h6>*Senha deve conter no minimo 6 caracter.</h6>
+                                <input type="submit" value="Enviar solicitação">
+                                
+                        </form>
+                </div>        
         
-    
-        
+                
         </div>
-        <input type="submit" value="Enviar solicitação">
+</body>
+</html>
+
+        
+        
 
 
-</form>
 
 
 
