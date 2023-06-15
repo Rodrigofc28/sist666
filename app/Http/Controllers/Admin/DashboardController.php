@@ -1,12 +1,12 @@
 <?php
 
-/*
- * Developed by Milena Mognon
- */
 
 namespace app\Http\Controllers\Admin;
-
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Formulario;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -16,8 +16,12 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('dashboard');
+        $usuario=Auth::user()->nome;
+        $usuarios_mensagens = Formulario::all();
+        
+        return view('dashboard',
+        compact('usuario','usuarios_mensagens'));
     }
 }

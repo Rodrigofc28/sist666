@@ -38,22 +38,25 @@ class CarabinaRequest extends FormRequest
             'quantidade_raias' => 'required|integer|min:0|max:30',
             'comprimento_cano' => 'required|between:5,10',
             'comprimento_total' => 'required|between:5,10',
-            
+            'telha'=>'required',
             'estado_geral' => 'required|between:2,15',
             'funcionamento' => 'required|between:5,25',
             'sentido_raias' => 'required|between:5,30',
             'coronha_fuste' => 'required|between:5,30',
             'tipo_acabamento' => 'required|between:5,40',
             'tipo_arma' => 'required|between:5,30',
-            'cao' => 'required|max:40',
-            'retem_carregador' => 'required|max:40',
+            'sistema_percussao'=>'required',
+            'sistema_disparo'=>'required',
+            'sistema_inflamacao'=>'required',
             
-            'trava_seguranca' => 'required|max:40',
-            'carregamento' => 'required|max:40',
+            'numero_patrimonio'=>'nullable',
+            'diametro_cano'=>'nullable',
+            'sistema_carregamento'=>'required',
             'capacidade_carregador' => 'required',
-            'carregador' => 'required|max:40',
-            'numeracao_montagem' => 'nullable|max: 50',
-            'num_lacre' => 'required'
+            'tipo_carregador'=>'nullable',
+            'salva_cadastro'=>'nullable',
+            'num_lacre' => 'required',
+            'num_canos'=>'required'
         ];
     }
 }

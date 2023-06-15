@@ -12,9 +12,11 @@ use App\Models\Secao;
 use App\Models\User;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\cadastrousuario;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
-{
+{   
+    
     public function __construct()
     {
         $this->middleware('auth');
@@ -28,10 +30,10 @@ class UsersController extends Controller
     public function index( )
     {   
         $cargos = Cargo::all();
-        $secoes = Secao::all();
+        
         $usuarios=cadastrousuario::all();
         $users = User::paginate(10);
-        return view('admin.users.index', compact('users','usuarios','cargos', 'secoes'));
+        return view('admin.users.index', compact('users','usuarios','cargos'));
     }
 
     /**
@@ -79,10 +81,18 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {   
-       
+        DB::table('laudos')->where('perito_id', '=', $user->id)->delete();
+         DB::table('users')->where('id', '=', $user->id)->delete();
+         
+         
+        $cargos = Cargo::all();
+        $secoes = Secao::all();
+        //User::destroy($user->nome);
         
-        User::destroy($user->usuario);
-        return response()->json(['success' => 'done']);
+        
+        $usuarios=cadastrousuario::all();
+        $users = User::paginate(10);
+        return view('admin.users.index', compact('users','usuarios','cargos', 'secoes'));
     }
 
     public function search($nome)

@@ -20,7 +20,7 @@
                 
                 <div class="copyright text-center text-white">
                 
-                    <span>Copyright © Milena Mognon 2019</span>
+                    <span>Copyright © Rodrigo de Freitas Camargo 2023</span>
                 </div>
             </div>
         </div>

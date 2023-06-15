@@ -14,14 +14,27 @@
     <link rel="stylesheet" href="{{ URL::asset('css/home.css') }}">
 </head>
 
-<body>
+<body onload="funcaocarregar()">
+
+
+    
+
+
+
+
+
+
     <section id="home">
         <div class="home-container">
             <div class="home-logo">
-                <img src="../image/logo-sem-fundo.png" alt="Logo da Policia Científica do Paraná">
+                
+                <!-- <video src="../image/web_logo.mp4" id="video" type="video/mp4" autoplay muted playsinline loop ></video> -->
+               <span id="logo_anuncios">WEB ANUNCIOS</span>
             </div>
 
-            <h1>GLB - Gerador de Laudos Balísticos</h1>
+            
+
+           
             <div class="actions">
                 @auth
                 <a class="btn-home-page" href="{{ route('dashboard') }}">
@@ -32,22 +45,19 @@
                     Login
                 </a>
                 @endauth
-                 <a href="{{ route('cadastros.index') }}" class="btn-solicita">Solicitar Acesso</a> 
+                 <a href="{{ route('cadastros.index') }}" class="btn-solicita">CADASTRAR</a> 
             </div>
             <br>
-            <h5 class="text-white">
-                {{-- <strong>Sistema em desenvolvimento! Para ter acesso, envie um email para
-                        milenamognon@gmail.com
-                    </strong> --}}
-            </h5>
-            <h6 class="text-white">
-                <strong>Melhor Visualizado no navegador Google Chrome</strong>
-            </h6>
+           
+            <a href="">Desenvolvedor Rodrigo de Freitas Camargo</a>
+            
         </div>
     </section>
     <footer>
 
     </footer>
+    @include('layout.scripts')
+    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 </body>
 
 </html>

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+        
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -14,7 +14,7 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
-
+        <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
         <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ URL::asset('css/home.css') }}">
         <link rel="stylesheet" href="{{ URL::asset('css/layout.css')}}">
@@ -31,8 +31,8 @@
         @yield('style')
     </head>
     <body>
-        @includeWhen(Auth::user()->cargo->nome=='Administrador','layout.menu_admin')
-        @includeWhen(Auth::user()->cargo->nome!='Administrador','layout.menu')
+        
+        @include('layout.menu')
         <div id="content-wrapper">
             <div class="container-fluid">
                 {{ Breadcrumbs::render() }}
@@ -41,13 +41,7 @@
             </div>
 
             <!-- Sticky Footer -->
-            <footer class="sticky-footer">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright © Milena Mognon 2019</span>
-                    </div>
-                </div>
-            </footer>
+            
         </div>
         @include('layout.scripts')
     </body>

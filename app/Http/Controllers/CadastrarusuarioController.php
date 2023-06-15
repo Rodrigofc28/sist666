@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Secao;
 use Illuminate\Http\Request;
 use App\Models\cadastrousuario;
 use App\Http\Requests\cadastroRequest;
-
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 class CadastrarusuarioController extends Controller
 {
    public function index(){
-    return view('cadastros.index');
+    $secoes = Secao::all();
+        
+    return view('cadastros.index',compact('secoes'));
    }
     /**
      * Store a newly created resource in storage.
@@ -17,10 +21,15 @@ class CadastrarusuarioController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(cadastroRequest $request)
     {
         
-    cadastrousuario::create($request->all());
+    $senhaCodificada= Hash::make($request['password']);    
+    $usuarioNovo=$request->except('password');
+    $usuarioNovoCadastro= array_merge($usuarioNovo,['password'=>$senhaCodificada]);
+    User::create($usuarioNovoCadastro);
+    
+    //cadastrousuario::create($request->all());
     return redirect()->route('home');
     }
      /**

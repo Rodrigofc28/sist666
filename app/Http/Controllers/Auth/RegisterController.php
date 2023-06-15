@@ -43,7 +43,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {   
-        
+      
         $cargos = Cargo::all();
         $secoes = Secao::all();
         return view('admin/users/create', compact('cargos', 'secoes'));
@@ -76,8 +76,8 @@ class RegisterController extends Controller
             'nome' => $data['nome'],
             'email' => $data['email'],
             'secao_id' => $data['secao_id'],
-            'cargo_id' => $data['cargo_id'],
-            'password' => Hash::make($data['password']),
+            
+            'password' => $data['password'],
         ]);
     }
     /**

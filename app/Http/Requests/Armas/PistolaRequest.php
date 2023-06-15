@@ -45,16 +45,18 @@ class PistolaRequest extends FormRequest
             'cabo' => 'required|between:4,30',
             'tipo_acabamento' => 'required|between:5,40',
             'tipo_arma' => 'required|between:5,30',
-            'cao' => 'required|max:40',
-            'retem_carregador' => 'required|max:40',
-            'trava_ferrolho' => 'required|max:40',
-            'trava_gatilho' => 'required|max:40',
-            'trava_seguranca' => 'required|max:40',
-            'carregamento' => 'required|max:40',
             'capacidade_carregador' => 'required',
-            'carregador' => 'required|max:40',
-            'numeracao_montagem' => 'nullable|max: 50',
-            'num_lacre' => 'required'
+            'diametro_cano'=>'required',
+            'num_lacre' => 'required',
+            
+            'sistema_funcionamento'=>'required',
+            'sistema_carregamento'=>'required',
+            'num_canos'=>'required',
+            'tipo_carregador'=>'nullable', 
+            'sistema_percussao'=>'required',   
+            'sistema_disparo'=>'required',
+            'sistema_inflamacao'=>'required',
+            'salva_cadastro'=>'nullable'
         ];
     }
 }

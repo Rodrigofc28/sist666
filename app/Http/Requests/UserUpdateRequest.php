@@ -31,13 +31,13 @@ class UserUpdateRequest extends FormRequest
         return [
             'email' => ['required',
                         'string',
-                        'email',
+                        'rg',
                         'max:255',
                         Rule::unique('users')->ignore($this->user->id),
                     ],
             'nome' => 'required|min:6',
             'secao_id' => 'required|int',
-            'cargo_id' => 'required|int',
+            
             'nova_senha' => 'nullable|string|min:6',
             'confirmacao_nova_senha' => 'nullable|same:nova_senha|min:6'
         ];
@@ -53,7 +53,7 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'secao_id' => 'seção',
-            'cargo_id' => 'cargo',
+           
             'confirmacao_nova_senha' => 'confirmação da nova senha',
             'nova_senha' => 'nova senha'
         ];

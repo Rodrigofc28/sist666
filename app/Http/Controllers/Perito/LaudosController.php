@@ -9,13 +9,16 @@ namespace App\Http\Controllers\Perito;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LaudoRequest;
 use App\Models\Cidade;
-use App\Models\Diretor;
+
 use App\Models\Gerador\Gerar;
-use App\Models\Laudo;
+use App\Models\Formulario;
+use App\Models\FormularioInspecao;
 use App\Models\OrgaoSolicitante;
 use App\Models\Secao;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 class LaudosController extends Controller
 {
     public function __construct()
@@ -23,11 +26,7 @@ class LaudosController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         $user = Auth::id();
@@ -44,31 +43,36 @@ class LaudosController extends Controller
     {
         $secoes = Secao::all();
         $cidades = Cidade::all();
-        $diretores = Diretor::all();
+      
 
         return view('perito.laudo.create',
-            compact('secoes', 'cidades', 'diretores'));
+            compact('secoes', 'cidades'));
     }
 
-    /*
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
-    */
-    public function store(LaudoRequest $request)
-    {
-        $laudo = Laudo::config_laudo_info($request);
-        $laudo = Laudo::create($laudo);
-        $laudo_id = $laudo->id;
-        return redirect()->route('laudos.materiais', compact('laudo_id'));
+    
+    public function store(Request $request)
+    {  
+        $usuario=Auth::user()->nome;
+        $mensagens=$request->only(['mensagens','perito_id']);
+        $converte=md5($request->upload_image.strtotime("now")).'.'.'mp4';
+        $salvarBanco=['upload_image'=>$converte]; 
+        $banco_de_dados=array_merge($salvarBanco,$mensagens);
+        Formulario::create($banco_de_dados);    
+            
+        if (!is_dir(storage_path('app/public/imagensUsuarios'))) { // verifica se existe a pasta upload
+            mkdir(storage_path('app/public/imagensUsuarios'), 0755, true);
+           
+            $request->upload_image->move(storage_path('app/public/imagensUsuarios'),$converte);
+        }else{
+            $request->upload_image->move(storage_path('app/public/imagensUsuarios'),$converte);
+        };
+            
+        
+        return redirect()->route('dashboard');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Laudo $laudo
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Laudo $laudo)
+    
+    public function show(Formulario $laudo)
     {
         $cidades = Cidade::all();
         $secoes = Secao::all();
@@ -77,36 +81,27 @@ class LaudosController extends Controller
         $armas = $laudo->armas;
         $municoes = $laudo->municoes;
         $componentes = $laudo->componentes;
+        
         return view('perito.laudo.show',
             compact('laudo', 'cidades', 'solicitantes',
                 'diretores', 'secoes', 'armas', 'municoes', 'componentes'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  Laudo $laudo
-     * @return \Illuminate\Http\Response
-     */
-    public function update(LaudoRequest $request, $laudo)
+    
+    public function update(Request $request, $laudo)
     {
-        $updated_laudo = Laudo::config_laudo_info($request);
-        Laudo::find($laudo->id)->fill($updated_laudo)->save();
+        
+        $updated_laudo = Formulario::config_laudo_info($request);
+        Formulario::find($laudo->id)->fill($updated_laudo)->save();
         $laudo_id = $laudo->id;
         return redirect()->route('laudos.show', compact('laudo_id'))
             ->with('success', __('flash.update_m', ['model' => 'Laudo']));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $laudo
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy($laudo)
     {
-        Laudo::destroy($laudo->id);
+        Formulario::destroy($laudo->id);
         return response()->json(['success' => 'done']);
     }
 
@@ -115,23 +110,33 @@ class LaudosController extends Controller
         return view('perito.materiais', compact('laudo'));
     }
 
-    public function generate_docx(Laudo $laudo)
+    public function generate_docx($laudo)
     {
-        if ($laudo->armas->isEmpty() && $laudo->municoes->isEmpty() && $laudo->componentes->isEmpty()) {
-            return redirect()->route('laudos.show', compact('laudo'))
-                ->with('warning', 'É preciso ter ao menos 1 (um) material cadastrado para gerar o laudo!');
-        } else {
+      
+       $id=Auth::id(); // pega o id do usuario
+       
+        
+       $today = Carbon::today()->toDateString(); //Carbon é uma classe que manipula datas
+
+        $users = DB::table('formularios')
+            ->where('perito_id', $id)
+            ->whereDate('created_at', $today)
+            ->where('secao_id',$laudo)
+            ->get();
+            
+        
             $phpWord = new Gerar();
-            $phpWord = $phpWord->create_docx($laudo);
+          
+            $phpWord = $phpWord->create_docx($users,$laudo);
 
             return $phpWord;
-        }
+        
     }
 
     public function search($rep)
     {
         $rep = str_replace('-', '/', $rep);
-        $laudo = Laudo::where([['rep', $rep], ['perito_id', Auth::id()]])->first();
+        $laudo = Formulario::where([['rep', $rep], ['perito_id', Auth::id()]])->first();
         if(empty($laudo)){
             return response()->json(['fail' => 'true',
             'message' => 'Nenhum laudo encontrado em este número (' . $rep . ')']);

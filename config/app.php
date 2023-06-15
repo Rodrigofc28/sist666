@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'GBL - Gerador de Laudos Balísticos'),
+    'name' => env('APP_NAME', 'web app'),
 
     /*
     |--------------------------------------------------------------------------

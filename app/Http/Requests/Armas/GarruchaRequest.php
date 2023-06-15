@@ -39,7 +39,7 @@ class GarruchaRequest extends FormRequest
             'comprimento_cano' => 'required|between:5,10',
             'comprimento_total' => 'required|between:5,10',
             'altura' => 'required|between:5,10',
-            'sistema_percussao' => 'required|between:5,30',
+            'sistema_percussao' => 'required|between:5,50',
             'estado_geral' => 'required|between:2,15',
             'funcionamento' => 'required|between:5,25',
             'sentido_raias' => 'required|between:5,30',
@@ -47,13 +47,13 @@ class GarruchaRequest extends FormRequest
             'tipo_acabamento' => 'required|between:5,40',
             'tipo_arma' => 'required|between:5,30',
             'num_canos' => 'required:max:15',
-            'disposicao_canos' => 'nullable|max: 40',
-            'teclas_gatilho' => 'nullable|max: 25',
-            'chave_abertura' => 'nullable|max: 70',
-            'cao' => 'required|max:40',
-            'placas_laterais' => 'required|max:50',
+            'sistema_inflamacao'=> 'required|between:5,40',
+            'diametro_cano'=> 'nullable',
+            'salva_cadastro'=>'nullable',
+           
             'num_lacre' => 'required',
-            'numeracao_montagem' => 'nullable|max: 50',
+            'sistema_disparo'=>'required'
+            
         ];
     }
 }

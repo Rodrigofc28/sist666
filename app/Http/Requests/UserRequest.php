@@ -28,10 +28,10 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|string|email|max:255|unique:users',
+            'rg' => 'required|string|max:255|unique:users',
             'nome' => 'required|min:6',
             'secao_id' => 'required|int',
-            'cargo_id' => 'required|int',
+            
             'password' => 'required|string|min:6:confirmed',
             'confirmacao_senha' => 'required|same:password|min:6'
         ];
@@ -47,7 +47,7 @@ class UserRequest extends FormRequest
     {
         return [
             'secao_id' => 'seção',
-            'cargo_id' => 'cargo',
+           
             'confirmacao_senha' => 'confirmação de senha',
             'password' => 'senha'
         ];

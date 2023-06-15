@@ -14,9 +14,15 @@
         background-attachment: fixed;
     }
 }
-
+video
+{
+    width: 250px;
+}
 #home .home-logo {
     margin: 20px;
+    height: 250px;
+    background-color: #e8f1f377;
+    
 }
 
 #home .home-logo img {
@@ -26,10 +32,8 @@
 #home .home-container {
     /* background: rgba(0, 0, 0, 0.5); */
 
-    background: -webkit-linear-gradient(#CCCCCC, #000000);
-    background: -o-linear-gradient(#CCCCCC, #000000);
-    background: linear-gradient(#CCCCCC, #000000);
-    filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#CCCCCC', EndColorStr='#000000');
+   
+    
 
 
     /* Read more: http://www.linhadecodigo.com.br/artigo/3603/css3-gradient-criando-planos-de-fundo-com-efeito-degrade.aspx#ixzz5cDxOgyHf */
@@ -45,7 +49,8 @@
     font-weight: 700;
     line-height: 48px;
     text-transform: uppercase;
-    color: #fff;
+    color:rgb(242, 43, 212);
+    font-family: fantasy;
 }
 
 @media (max-width: 768px) {
@@ -86,6 +91,8 @@
     border-radius: 2px;
     transition: 0.5s;
     margin: 10px;
+    text-decoration: none;
+    color: #fff;
 }
 
 #home .btn-get-started {
@@ -101,8 +108,8 @@
 }
 
 #home .btn-home-page {
-    border: 2px solid #fff;
-    color: #fff;
+    
+    color: rgb(243, 237, 237);
     border-radius: 4px;
 }
 
@@ -110,4 +117,29 @@
     background: rgb(105, 75, 46);
     border: 2px solid rgb(92, 65, 41);
     border-radius: 4px;
+    color: #fff;
+}
+#home .btn-solicita:hover{
+    background: rgb(105, 75, 46);
+    border: 2px solid rgb(92, 65, 41);
+    border-radius: 4px;  
+    color: #fff;
+}
+body{
+background-image: url('../image/body_fundo.png');
+background-repeat: no-repeat;
+background-size: 100% 100%;
+
+}
+#imageAustro{
+    left: 2%;
+    position: absolute;
+    transition: transform 0.5s ease;
+    width: 150px;
+}
+/* transição suave entre paginas */
+#deley_class_home{
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+
 }

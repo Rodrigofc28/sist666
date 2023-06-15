@@ -2,50 +2,62 @@
 @section('js')
 {!! Html::script('js/calendar.js') !!}
 {!! Html::script('js/filtrar_solicitantes.js') !!}
+{!! Html::script('js/imagecirculo.js') !!}
 @endsection
 @section('page')
 <div class="col-8">
-    <h4>Cadastrar Informações Gerais do Laudo</h4>
+@php
+  $msg = session('msg');
+@endphp
+    <h2><strong>ANUNCIAR</strong></h2>
+    @if( $msg )
+    <p style="color:green;">Adicionado Com Sucesso</p>
+    
+    @endif
 </div>
 <hr>
-{{ Form::open(['route' => 'laudos.store']) }}
-
-<div class="row m-auto">
-    @include('perito.laudo.attributes.rep', ['rep' => $laudo->rep ?? old('rep')])
-    @include('perito.laudo.attributes.oficio', ['oficio' => $laudo->oficio ?? old('oficio')])
-    @include('perito.laudo.attributes.indiciado', ['indiciado' => $laudo->indiciado ?? old('indiciado')])
-    @include('perito.laudo.attributes.tipo_inquerito', ['tipo_inquerito2' => $laudo->tipo_inquerito ??
-    old('tipo_inquerito')])
-    @include('perito.laudo.attributes.inquerito', ['inquerito' => $laudo->inquerito ?? old('inquerito')])
-
-    @include('shared.input_calendar', ['label' => 'Data da Solicitação', 'name' => 'data_solicitacao', 'size' => '3',
-    'value' => ''])
-    @include('shared.input_calendar', ['label' => 'Data da Designação','name' => 'data_designacao', 'size' => '3',
-    'value' => ''])
+{{ Form::open(['route' => 'laudos.store', 'enctype' => 'multipart/form-data', 'files' => true]) }}
 
 
-    <input class="form-control" type="hidden" name="perito_id" autocomplete="off" value="{{ Auth::id() }}" />
-    @include('shared.attributes.secao', ['secao2' => $laudo->secao_id ?? old('secao_id')])
-    @include('shared.attributes.cidades', ['size' => '4', 'cidade2' => $laudo->cidade_id ?? old('cidade_id')])
-    @include('perito.laudo.attributes.solicitante', ['solicitante2' => $laudo->solicitante_id ?? old('solicitante_id')])
-    @include('perito.laudo.attributes.diretor', ['diretor2' => $laudo->diretor_id ?? old('diretor_id')])
-</div>
-<div class="row m-auto">
-    <div class="col-lg-3 mt-3">
-        <p>* Obrigatório</p>
-    </div>
-</div>
-<div class="row m-auto justify-content-between">
-    <div class="col-lg-4 mt-3 mb-4">
-        <a class="btn btn-secondary btn-block" href="{{ route('laudos.index') }}">
-            <i class="fas fa-arrow-circle-left"></i> Voltar</a>
-    </div>
-    <div class="col-lg-4 mt-3 mb-4">
+                    
+                    
+                    
+                
+                    <textarea name="mensagens" id="" style="max-width:100%" placeholder="MENSAGENS" cols="250" rows="10"></textarea>
+                    
+    
+  
+                   <!--  <input type="hidden" name="imagem_base64" id="imagem_base64"> -->
+                    
+                    <input class="form-control" type="hidden" name="perito_id" autocomplete="off" value="{{ Auth::user()->nome }}" />
+                    <input type="file"  name="upload_image" id="">
+    
+
+<!-- <hr>
+   <img src="..\image\marcador.jpg" id="ima" name="a" onclick="adicionarCirculogenerico(event,'ima','imagem_base64')"  alt="">
+   
+<hr> -->
+    
+    @php
+    $laudo=(!empty(session('unidade'))?session('unidade'):"NDA");
+    @endphp
+    
         <button class="btn btn-success btn-block" type="submit">
-            <i class="fas fa-save"></i> Salvar e Continuar
+             ENVIAR
         </button>
-    </div>
-</div>
+        <!-- <a class="btn btn-primary btn-block" href="{{ route('laudos.generate_docx',$laudo)}}">
+            <i class="fas fa-file-download" aria-hidden="true"></i>
+            Gerar Documento (.docx)
+        </a> -->
+        
+    
+    
+    
+   
+    
+
 {{ Form::close() }}
+
 @include('perito.modals.solicitante_modal')
 @endsection
+

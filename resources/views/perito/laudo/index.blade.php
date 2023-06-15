@@ -14,7 +14,7 @@
 <tr>
     <td> {{ $laudo->rep }}</td>
     <td> {{ $laudo->oficio }}</td>
-    <td> {{ $laudo->cidade->nome }}</td>
+    <td> {{ $laudo->cidade_id }}</td>
     <td> {{ $laudo->solicitante->nome }}</td>
     <td>
         <a class="btn btn-primary mt-1" href="{{ route('laudos.show', $laudo) }}">

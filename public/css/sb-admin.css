@@ -52,7 +52,8 @@ html {
   font-family: sans-serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  background-color: #f7f9fb;
+ 
 }
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
@@ -65,9 +66,9 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #212529;
+  color: #131414;
   text-align: left;
-  background-color: #fff;
+  background-color: rgb(236, 231, 231);
 }
 
 [tabindex="-1"]:focus {
@@ -206,6 +207,7 @@ figure {
 img {
   vertical-align: middle;
   border-style: none;
+  max-width: 100%;
 }
 
 svg {
@@ -592,6 +594,9 @@ pre code {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+  
+  background-color: rgba(55, 92, 238, 0.631);
+  padding-top: 50px;
 }
 
 .row {
@@ -1145,12 +1150,23 @@ pre code {
     flex: 0 0 91.66667%;
     max-width: 91.66667%;
   }
-  .col-md-12 {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 100%;
-    flex: 0 0 100%;
-    max-width: 100%;
+  .dash {
+    
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   max-width: 100%;
+   
+   
   }
+  .dash img{
+    width: 500px;
+    max-width: 100%;
+    position: absolute;
+  }
+  
   .order-md-first {
     -webkit-box-ordinal-group: 0;
     -ms-flex-order: -1;
@@ -2026,6 +2042,7 @@ pre code {
   transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2688,6 +2705,7 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #28a745;
   border-color: #28a745;
+  
 }
 
 .btn-success:hover {
@@ -4724,6 +4742,10 @@ input[type="button"].btn-block {
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  position: fixed;
+  max-width: 100%;
+  width: 400px;
+  
 }
 
 .navbar-expand > .container,
@@ -4927,10 +4949,13 @@ input[type="button"].btn-block {
   margin-bottom: 0;
   background-color: rgba(0, 0, 0, 0.03);
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: black;
+  text-align: center;
 }
 
 .card-header:first-child {
   border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+  
 }
 
 .card-header + .list-group .list-group-item:first-child {
@@ -6985,7 +7010,8 @@ button.bg-light:focus {
 }
 
 .bg-dark {
-  background-color: #343a40 !important;
+   background-color: #343a40bf !important; 
+ 
 }
 
 a.bg-dark:hover, a.bg-dark:focus,
@@ -10368,7 +10394,7 @@ button.bg-dark:focus {
 }
 
 .text-white {
-  color: #fff !important;
+  color: #007bff !important;
 }
 
 .text-primary {
@@ -10670,8 +10696,10 @@ body {
 
 .sidebar {
   width: 90px !important;
-  background-color: #212529;
+  /* background-color: #212529; */
+  background-color: #0b2e13;
   min-height: calc(100vh - 56px);
+  
 }
 
 .sidebar .nav-item:last-child {
@@ -10682,6 +10710,9 @@ body {
   text-align: center;
   padding: 0.75rem 1rem;
   width: 90px;
+  max-width: 100%;
+  
+  
 }
 
 .sidebar .nav-item .nav-link span {
@@ -10911,4 +10942,76 @@ body.sidebar-toggled footer.sticky-footer {
   body.sidebar-toggled footer.sticky-footer {
     width: calc(100% - 90px);
   }
+}
+
+table{
+  border: 1px solid black;
+ 
+}
+td {
+  
+  border: 1px solid black;
+}
+td h3{
+  text-align: center;
+  font-weight: bolder;
+  font-size: 20px;
+}
+
+@media screen and (max-width: 600px) {
+  /* Aplicar estilo para telas menores que 600px */
+  table {
+    display: block;
+    width: 100%;
+    border-collapse: collapse ;
+  }
+  
+  th, td {
+    display: block;
+    width: 100%;
+    border: 1px solid black;
+  }
+  
+  th {
+    font-weight: bold;
+  }
+  
+  td::after{
+    content: attr(data-label);
+    font-weight: bold;
+    display: inline-block;
+    width: 50%;
+  }
+}
+h3{
+  background-color: #155724;
+  color: #f7f9fb;
+}
+#dashbord{
+  position: fixed;
+  top: 70px;
+}
+#formulario{
+  position: fixed;
+  top: 125px;
+}
+#formulario-inspecao{
+  position: fixed;
+  top: 180px;
+}
+#logout{
+  position: fixed;
+  top: 190px;
+}
+h2{
+  text-align: center;
+}
+
+h4{
+  background-color: #155724;
+  color: #fcf8e3;
+  text-align: center;
+}
+label{
+  color: pink;
 }

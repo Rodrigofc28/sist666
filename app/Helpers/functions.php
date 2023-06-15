@@ -9,6 +9,8 @@ function formatar_data($data)
     return $ano . "-" . $mes . "-" . $dia; // 2018-12-28
 }
 
+
+
 /* formata a data para o padrão dia/mes/anos */
 function formatar_data_do_bd($value, $format = 'd/m/Y')
 {
@@ -139,6 +141,25 @@ function armas_route_name($material)
             break;
         case 'Metralhadora':
             return 'metralhadoras';
+            break;
+        case 'Submetralhadora':
+            return 'submetralhadoras';
+            break;
+        case 'Fuzil':
+            return 'fuzils';
+            break;
+        case 'Pistolete':
+            return 'pistoletes';
+            break;
+        case 'Pistola pressao':
+            return 'pressaopistolas';
+            break;
+
+        case 'Carabina Pressão':
+                return 'pressaocarabinas';
+                break;
+        case 'Espingarda mista':
+            return 'espingardamistas';
             break;
         default:
             return 'armas';

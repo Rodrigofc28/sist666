@@ -7,134 +7,142 @@
 namespace App\Models\Gerador;
 
 use PhpOffice\PhpWord\SimpleType\Jc;
-
-class Geral
+use PhpOffice\PhpWord\SimpleType\Border;
+use PhpOffice\PhpWord\Element\Table;
+use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\Shape;
+use PhpOffice\PhpWord\Style\Font;
+use Illuminate\Http\UploadedFile;
+use PhpOffice\PhpWord\Element\Image;
+class Geral 
 {
-    private $section, $config, $phpWord;
+    public $section, $config, $phpWord;//mudei de private para public
 
     public function __construct($section, $config, $phpWord)
     {
+        
         $this->section = $section;
         $this->config = $config;
         $this->phpWord = $phpWord;
     }
-
-    public function addText($laudo)
+   
+     
+       
+    
+    public function addText($users,$b)
     {
-        $header = $this->section->addHeader();
-        $header->addTextBreak(1);
-        $header->addPreserveText('FLS. {PAGE}', array('bold' => true,
-            'size' => 10, 'name' => 'arial'), $this->config->paragraphRight());
-
-        $num_laudo = "LAUDO Nº $laudo->rep";
-        $header->addText($num_laudo, array('bold' => true,
-            'size' => 10, 'name' => 'arial'), array('alignment' => Jc::END));
-
-        $intCrim = "POLÍCIA CIENTÍFICA";
-
-        $perito = $laudo->perito->nome;
-        $diretor = $laudo->diretor->nome;
-        $delegacia = $laudo->solicitante->nome;
-        $oficio = $laudo->oficio;
-        $secao = $laudo->secao->nome;
-
-        $aux = $this->titulo_e_exame(
-            $laudo->armas()->count(),
-            $laudo->municoes()->count(),
-            $laudo->componentes()->count());
-        $cabecalho2 = "Em consequência, o Perito procedeu ao exame solicitado, relatando-o com a verdade e com todas as circunstâncias relevantes, da forma como segue:";
-
-        $exame = "DO EXAME DO MATERIAL APRESENTADO";
-
-        $data_solic =formatar_data_do_bd($laudo->data_solicitacao);
-        $data_desig = data($laudo->data_designacao);
         
-        $text = [
-            $this->section->addText($aux['titulo'], $this->config->arial14Bold(), $this->config->paragraphCenter()),
-            $textrun = $this->section->addTextRun($this->config->paragraphJustify()),
-            $textrun->addText("$data_desig, nesta cidade de $secao e na ", $this->config->arial12()),
-            $textrun->addText($intCrim, $this->config->arial12Bold()),
-            $textrun->addText(" do Estado, foi designado ", $this->config->arial12()),
-            $textrun->addText($diretor, $this->config->arial12Bold()),
-            $textrun->addText(" por indicação do chefe da Seção, o Perito Criminal ", $this->config->arial12()),
-            $textrun->addText($perito, $this->config->arial12Bold()),
-            $textrun->addText(", para proceder ao exame " . $aux['exame'] . ", a fim de ser atendida uma solicitação contida no Ofício nº. ", $this->config->arial12()),
-            $textrun->addText($oficio, $this->config->arial12Bold()),
-            $textrun->addText(", recebido dia $data_solic, oriundo da ", $this->config->arial12()),
-            $textrun->addText($delegacia, $this->config->arial12Bold()),
-            $this->inquerito($textrun, $laudo->tipo_inquerito, $laudo->inquerito),
-            $this->indiciado($textrun, $laudo->indiciado),
-            $this->section->addText($cabecalho2, $this->config->arial12(), $this->config->paragraphJustify()),
-            $this->section->addText($exame, $this->config->arial12Bold(), $this->config->paragraphJustifyExam()), 'phpWord' => $this->phpWord];
+      
+        $source = public_path('image/logo.jpg');
+        $sourceImg2 = public_path('image/simboloparana.jpg');
+        //$fileContent = file_get_contents($source);
+        
+        $table = $this->section->addTable('tabela');
+        $table->addRow(null,['tblHeader'=>true]);
+        $table->addCell(1200)->addImage($source,array('alignment' => Jc::LEFT, 'width' => 50, 'height'=>50));
+        $rer=$table->addCell(8000);
+        $rer->addText("DIÁRIO DE BORDO - POLÍCIA CIENTÍFICA PARANÁ", $this->config->arial14Bold(),array('alignment' => Jc::CENTER));
+        $rer->addText('UNIDADE: '.$b.' VTR: '.$users[0]->vtr,$this->config->arial14Bold(),array('alignment' => Jc::CENTER));
+        $table->addCell(1200)->addImage($sourceImg2,array('alignment' => Jc::RIGHT, 'width' => 50, 'height'=>50));
 
+        $fontStyle = array ('bold' => true); 
+        $paraStyle = array ('align' =>'center');
+        $styleTable = array('borderColor'=>'#000000','borderSize'=>10, 'cellMarginTop'=>10,'cellMarginLeft'=>0,'cellMarginRight'=>0,'cellSpacing'=>10000); //configuração da borda
+        $styleFirstRow = array('bgColor'=>'#D9D9D9');
+        $cellStyle=array('borderSize'=>50);
+        $styleBorder = array('borderColor'=>'#FFFFFF','borderSize'=>10);
+        
+        $this->phpWord->addTableStyle('tabela', $styleBorder); //cabeçalho da tabela
+        $this->phpWord->addTableStyle('tabela2img', $styleTable, $styleFirstRow);
+        
+        
+
+        $this->section->addTextBreak(1);
+            $table = $this->section->addTable('tabela2img');
+        $table->addRow();
+        $table->addCell(600,['bgColor'=>'D9D9D9'])->addText("Data",$fontStyle,$paraStyle);
+        $table->addCell(600,['bgColor'=>'D9D9D9'])->addText("Hora Saída",$fontStyle,$paraStyle);
+        $table->addCell(1550,['bgColor'=>'D9D9D9'])->addText("Motorista",$fontStyle,$paraStyle);
+        $table->addCell(1900,['bgColor'=>'D9D9D9'])->addText("Destino",$fontStyle,$paraStyle);
+        $table->addCell(900,['bgColor'=>'D9D9D9'])->addText("Km Inicial",$fontStyle,$paraStyle);
+        $table->addCell(1600,['bgColor'=>'D9D9D9'])->addText("Combustível",$fontStyle,$paraStyle);
+        $table->addCell(900,['bgColor'=>'D9D9D9'])->addText("Km Final",$fontStyle,$paraStyle);
+        $table->addCell(1600,['bgColor'=>'D9D9D9'])->addText("Combustível",$fontStyle,$paraStyle);
+        $table->addCell(600,['bgColor'=>'D9D9D9'])->addText("Hora Chegada",$fontStyle,$paraStyle);
+        
+        foreach($users as $user){
+            $dataFormatada = date('d/m/Y', strtotime($user->data_recebimento));
+            $table->addRow();
+            $imgUM = $this->img64Base($user->imagem_base64);
+            $imgDois = $this->img64Base($user->imagemFinal_base64);
+            $table->addCell()->addText($dataFormatada,null,$paraStyle); 
+            $table->addCell()->addText($user->horaSaida,null,$paraStyle); 
+            $table->addCell()->addText($user->nome_motorista,null,$paraStyle); 
+            $table->addCell()->addText($user->cidade_id,null,$paraStyle); 
+            $table->addCell()->addText($user->KMinicial,null,$paraStyle);
+            $table->addCell()->addImage($imgUM,array('alignment' => Jc::RIGHT, 'width' => 80, 'height'=>30));
+            $table->addCell()->addText($user->KMfinal,null,$paraStyle);
+            $table->addCell()->addImage($imgDois,array('alignment' => Jc::RIGHT, 'width' => 80, 'height'=>30));
+            $table->addCell()->addText($user->horaChegada,null,$paraStyle);
+         
+           
+          
+          
+        }
+           
+            
         return $this->section;
+
     }
 
-    public function addFinalText($perito)
-    {
-        $textrun = $this->section->addTextRun($this->config->paragraphJustify());
+    
+    public function img64base($a){
 
-        $final = [$textrun->addText("Este laudo foi redigido pelo Perito $perito e disponibilizado em arquivo digital contendo uma folha de rosto e ", $this->config->arial12(), $this->config->paragraphJustify()),
-            $textrun->addField('NUMPAGES', array(), array()),
-            $textrun->addText(" página(s). Por nada mais haver e sendo essas as declarações que tem a fazer, deu-se por findo o exame solicitado que de tudo se lavrou o presente laudo, o qual segue digitalmente assinado.", $this->config->arial12(), $this->config->paragraphJustify())];
-
-        return $final;
+        $imageR = base64_decode($a); // decodifica do banco a image em base 64
+        
+        $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imageR)); // tira #^data:image/\w+;base64,#i
+           
+        $tempFilePath = sys_get_temp_dir() . '/' . uniqid() . '.jpg'; // cria um diretorio temporario
+         file_put_contents($tempFilePath, $imageData);//colocar arquivo
+         
+        // quando a image vêm de um input do tipo file não precisa transforma em um objeto porque ela já é, porem quando ta em base64 sim ae se usa o UploadedFile
+          $imageConvertida = new UploadedFile($tempFilePath, 'diario_num_one.jpg', 'image/jpeg', null, true);
+       
+            
+        $fileC = file_get_contents($imageConvertida); //pegar arquivo
+        return $fileC;
     }
 
-    private function titulo_e_exame($armas, $municoes, $componentes)
-    {
-        if ($armas == 1 && $municoes == 0) {
-            $titulo = "LAUDO DE EXAME DE ARMA DE FOGO";
-            $exame = "na arma de fogo abaixo descrita";
-        } else {
-            if ($armas == 1 && $municoes > 0) {
-                $titulo = "LAUDO DE EXAME DE ARMA DE FOGO E MUNIÇÃO";
-                $exame = "na arma de fogo e munições abaixo descritas";
-            } else {
-                if ($armas > 1 && $municoes > 0) {
-                    $titulo = "LAUDO DE EXAME DE ARMA DE FOGO E MUNIÇÃO";
-                    $exame = "nas armas de fogo e munições abaixo descritas";
+
+ 
+    
+
+    public function imagem($laudo){
+        
+        $i=0;
+        $contagem=[];
+        $imagens = $laudo->imagens;
+       
+        if ($imagens->count() > 0) {
+            foreach ($imagens as $imagem) {
+                $source = storage_path('app/public/imagensEmbalagem/' . $imagem->nome);
+                if (file_exists($source)) {
+                    $fileContent = file_get_contents($source);
+                    
+                    $contagem[$i]=$fileContent;
+                    
                 } else {
-                    if ($armas > 0 && $municoes <= 0) {
-                        $titulo = "LAUDO DE EXAME DE ARMAS DE FOGO";
-                        $exame = "nas armas de fogo abaixo descritas";
-                    } else {
-                        if ($armas <= 0 && $municoes > 0) {
-                            $titulo = "LAUDO DE EXAME DE MUNIÇÃO";
-                            $exame = "nas munições abaixo descritas";
-                        } else {
-                            if ($armas == 0 && $municoes == 0 && $componentes > 0) {
-                                $titulo = "LAUDO DE EXAME DE CONSTATAÇÃO";
-                                $exame = "nos componentes abaixo descritos";
-                            }
-                        }
-                    }
+                    $this->section->addText("Ocorreu um erro com a imagem.", ['color' => "FF0000", 'size' => 14]);
                 }
+                $i++;
             }
-        }
-        return ['exame' => $exame, 'titulo' => $titulo];
-    }
-
-    private function indiciado($textrun, $indiciado)
-    {
-        if ($indiciado == '') {
-            return $textrun;
-        } else {
-            [$textrun->addText(", e tendo como indiciado ", $this->config->arial12()),
-                $textrun->addText($indiciado . ".", $this->config->arial12Bold())];
-            return $textrun;
-        }
-    }
-
-    private function inquerito($textrun, $tipo_inquerito, $inquerito)
-    {
-        if ($tipo_inquerito == '') {
-            return $textrun->addText('.', $this->config->arial12());
-        } else {
-            [$textrun->addText(", referente ao $tipo_inquerito nº ", $this->config->arial12()),
-                $textrun->addText($inquerito, $this->config->arial12Bold())];
-            return $textrun;
+            return $contagem;
         }
 
+
     }
+
+   
 }
+
+

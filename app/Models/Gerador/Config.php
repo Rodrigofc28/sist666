@@ -35,11 +35,11 @@ class Config
     {
         $this->section = $this->phpWord->addSection(
             array(
-                'marginLeft' => Converter::cmToTwip(3),
-                'marginRight' => Converter::cmToTwip(2),
+                'marginLeft' => Converter::cmToTwip(1.5),
+                'marginRight' => Converter::cmToTwip(1.5),
                 'marginBottom' => Converter::cmToTwip(0),
-                'headerHeight' => Converter::cmToTwip(2.73),
-                'footerHeight' => Converter::cmToTwip(0.35),
+                'headerHeight' => Converter::cmToTwip(1),
+                'footerHeight' => Converter::cmToTwip(2),
             )
         );
         return $this->section;
@@ -62,7 +62,7 @@ class Config
 
     public function arial12Underline()
     {
-        return array('bold' => false, 'size' => 12, 'name' => 'Arial', 'underline' => 'single');
+        return array('bold' => false, 'size' => 12, 'name' => 'Arial', 'underline' => 'single','bold' => true);
     }
 
     public function paragraphJustify()
@@ -122,5 +122,9 @@ class Config
     public function fonteTabela()
     {
         return array('bold' => false, 'size' => 12, 'name' => 'Arial');
+    }
+    public function confTabela()
+    {
+        return array('boderTopColor' => '009900');
     }
 }

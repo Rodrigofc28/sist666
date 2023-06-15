@@ -1,7 +1,6 @@
-<div class="col-lg-{{ $size ?? "6" }} mt-2">
-    <label for="indiciado">Indiciado</label>
-    <input class="form-control{{ $errors->has('indiciado') ? ' is-invalid' : '' }}"
-           name="indiciado" autocomplete="off" type="text"
+
+    <label for="indiciado"><strong>VTR</strong></label>
+    <input class="form-control"
+           name="vtr" autocomplete="off" type="text"
            value="{{ old('indiciado', $indiciado) }}" maxlength="80"/>
-    @include('shared.error_feedback', ['name' => 'indiciado'])
-</div>
+    

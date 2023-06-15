@@ -19,8 +19,8 @@ use App\Models\Secao;
 $factory->define(User::class, function (Faker $faker) {
     return [
         'nome' => mb_strtolower($faker->name),
-        'email' => $faker->unique()->safeEmail,
-        'cargo_id' => factory(Cargo::class),
+        'rg' => $faker->unique(),
+        
         'secao_id' => factory(Secao::class),
         'password' => 'senha_teste', // secret
         'remember_token' => str_random(10),

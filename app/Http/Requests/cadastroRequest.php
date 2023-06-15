@@ -30,10 +30,11 @@ class CadastroRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|string|email|max:255',
+            'email' => 'required|string|email|max:255|unique:cadastrousuarios',
             'nome' => 'required|min:6',
             'password' => 'required|min:8',
-            'timestamps'=>'date'
+            'timestamps'=>'date',
+            'secao_id'=>'required'
         ];
     }
 }

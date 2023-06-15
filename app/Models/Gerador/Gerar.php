@@ -1,8 +1,5 @@
 <?php
 
-/*
- * Developed by Milena Mognon
- */
 
 namespace App\Models\Gerador;
 
@@ -11,6 +8,7 @@ use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Style\Language;
 
+$i=0;
 class Gerar
 {
     private $phpWord;
@@ -27,45 +25,70 @@ class Gerar
         $this->phpW = $this->phpWord;
     }
 
-    public function create_docx($laudo)
+    public function create_docx($a=null,$b=null)
     {
-        $i = 0;
+        
+        
         $this->phpW->getSettings()->setThemeFontLang(new Language(Language::PT_BR));
         Settings::setOutputEscapingEnabled(true);
 
+         
         $this->geral = new Geral($this->section, $this->conf, $this->phpW);
-        $this->geral->addText($laudo);
-
-        $armasText = new ArmasText($this->section, $this->conf, $i);
-        $armasText = $armasText->addText($laudo->armas);
-        $i = $armasText['i'];
-
-        $municoesText = new MunicoesText($this->section, $this->conf, $i);
-        $municoesText = $municoesText->addText($laudo->municoes);
-        $i = $municoesText['i'];
-
-        $componentesText = new ComponentesText($this->section, $this->conf, $i);
-        $componentesText = $componentesText->addText($laudo->componentes);
-        $i = $componentesText['i'];
-
-        $this->geral->addFinalText($laudo->perito->nome);
-
-        $this->section->addFooter();
+            
+        $this->geral->addText($a,$b);
+        
+       
+        $footer=$this->section->addFooter();
+       
+       
 
         $objWriter = IOFactory::createWriter($this->phpW, 'Word2007');
-
-        $nome_arquivo = 'Laudo ' . str_replace("/", "-", $laudo->rep) . '.docx';
+        $randomico=rand(1,9999);
+        $nome_arquivo = 'diario_de_bordo ' . str_replace("/", "-", $randomico) . '.docx';
 
         if (!is_dir(storage_path('/laudos'))) {
             mkdir(storage_path('/laudos'), 0755, true);
         };
 
         try {
+           
             $objWriter->save(storage_path('laudos/' . $nome_arquivo));
+            
         } catch (Exception $e) {
             echo "erro";
         }
         return response()->download(storage_path('laudos/' . $nome_arquivo));
+        
+    }
+    public function create_docx_formulario($a)
+    {
+        
+        
+        $this->phpW->getSettings()->setThemeFontLang(new Language(Language::PT_BR));
+        Settings::setOutputEscapingEnabled(true);
 
+         
+        $this->geral = new FormularioInspecaoText($this->section, $this->conf, $this->phpW);
+        $this->geral->addText($a);
+     
+        $footer=$this->section->addFooter();
+     
+        $objWriter = IOFactory::createWriter($this->phpW, 'Word2007');
+        $randomico=rand(1,9999);
+        $nome_arquivo = 'diario_de_bordo ' . str_replace("/", "-", $randomico) . '.docx';
+
+        if (!is_dir(storage_path('/laudos'))) {
+            mkdir(storage_path('/laudos'), 0755, true);
+        };
+
+        try {
+           
+            $objWriter->save(storage_path('laudos/' . $nome_arquivo));
+            
+        } catch (Exception $e) {
+            echo "erro";
+        }
+        return response()->download(storage_path('laudos/' . $nome_arquivo));
+        
     }
 }

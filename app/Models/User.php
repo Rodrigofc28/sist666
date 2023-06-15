@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'nome', 'email', 'password', 'cargo_id', 'secao_id',
+        'nome', 'email', 'password', 'secao_id',
     ];
 
     /**
@@ -53,5 +53,9 @@ class User extends Authenticatable
         parent::boot();
 
         static::addGlobalScope(new NomeScope());
+    }
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
     }
 }

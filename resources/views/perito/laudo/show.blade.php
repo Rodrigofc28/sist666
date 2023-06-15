@@ -6,10 +6,14 @@
 {!! Html::script('js/dropzone.js') !!}
 {!! Html::script('js/dropzone_config.js') !!}
 {!! Html::script('js/cropper_image.js') !!}
+{!! Html::script('js/edicaoimagem.js') !!}
 @endsection
 @section('page')
 <div class="col-8">
     <h4>Visão Geral do Laudo</h4>
+   
+   
+      
 </div>
 <hr>
 <div class="col-lg-12">
@@ -17,6 +21,10 @@
 
     <input type="hidden" value="{{$laudo->id}}" id="laudo_id" name="laudo_id">
     <div class="form-group row">
+        
+        
+       
+
         @include('perito.laudo.attributes.rep', ['rep' => $laudo->rep ?? old('rep')])
         @include('perito.laudo.attributes.oficio', ['oficio' => $laudo->oficio ?? old('oficio')])
         @include('perito.laudo.attributes.indiciado', ['indiciado' => $laudo->indiciado ?? old('indiciado')])
@@ -29,19 +37,28 @@
 
         @include('shared.input_calendar', ['label' => 'Data da Designação',
         'name' => 'data_designacao', 'size' => '3', 'value' => formatar_data_do_bd($laudo->data_designacao)])
+        @include('shared.input_calendar', ['label' => 'Data da ocorrência', 'name' => 'data_ocorrencia', 'size' => '3',
+    'value' => formatar_data_do_bd($laudo->data_ocorrencia)])
+    @include('shared.input_calendar', ['label' => 'Data do recebimento', 'name' => 'data_recebimento', 'size' => '3',
+    'value' => formatar_data_do_bd($laudo->data_recebimento)])
 
         <input class="form-control" type="hidden" name="perito_id" autocomplete="off" value="{{ Auth::id() }}" />
         @include('shared.attributes.secao', ['secao2' => $laudo->secao_id ?? old('secao_id')])
         @include('shared.attributes.cidades', ['id' => 'cidade_id', 'size' => '4', 'cidade2' => $laudo->cidade_id ??
         old('cidade_id')])
+        
+
         @include('perito.laudo.attributes.solicitante', ['solicitante2' => $laudo->solicitante_id ??
         old('solicitante_id')])
-        @include('perito.laudo.attributes.diretor', ['diretor2' => $laudo->diretor_id ?? old('diretor_id')])
+        @include('perito.laudo.attributes.boletim_ocorrencia',['boletim2'=>$laudo->boletim_ocorrencia??old('boletim')])
+       
+         
+        
         
         <div class="col-lg-3 mt-auto">
             <button type="submit" id="salvar" class="btn btn-primary mt-2">
                 <i class="far fa-save" aria-hidden="true"></i>
-                Atualizar Informações
+                Editar Informações
             </button>
         </div>
         {{ Form::close() }}
@@ -49,8 +66,46 @@
 </div>
 
 <hr>
+
 <div class="col-lg-12">
     <h4 class="mb-4">Material Periciado: </h4>
+    @if(count( $laudo->imagens  )< 2)
+    <div style="border:solid 1px orange; ">
+    
+        <form action="{{route('embalagem')}}" method="post"  enctype="multipart/form-data">
+        {{ csrf_field() }}
+            
+        
+            <h6><strong style="padding:10px "> Adicionar Imagens da Embalagem recebida {{count($laudo->imagens)}}/2 </strong> </h6>
+            <input type="text" hidden name="laudo_id" value="{{$laudo->id}}">
+            <input type="file"  name="fotoEmbalagem[]" multiple="multiple"id="" accept=".jpg, .jpeg, .png">
+            <button type="submit" style="border:solid 0px;background:orange;color:white" >enviar</button>
+           
+            
+           
+        </form>
+    @endif
+        <hr>
+        <div>
+        
+        
+       @if(isset($laudo->imagens[0]->nome))
+       
+       
+      <strong style="padding:10px">  Imagem das embalagens </strong><br>
+        <img src="{{asset('../storage/imagensEmbalagem/'.$laudo->imagens[0]->nome)}}" style="width:100px;height:100px;padding:5px"alt="">
+        <strong><a href="{{route('imagemExcluir',$laudo->imagens[0])}}" style="color:red">Excluir Imagem</a></strong>
+        
+        @endif
+        @if(isset($laudo->imagens[1]->nome))
+        <img src="{{asset('../storage/imagensEmbalagem/'.$laudo->imagens[1]->nome)}}" style="width:100px;height:100px;padding:5px"alt="">
+       <strong><a href="{{route('imagemExcluir',$laudo->imagens[1])}}" style="color:red">Excluir Imagem</a> </strong>
+        @endif  
+        
+    </div>
+        
+    </div>
+    
     <div class="table-responsive">
         <table class="table table-bordered table-hover table-striped" id="tabela_pecas">
             <thead align="center">
@@ -71,6 +126,8 @@
             </tbody>
         </table>
     </div>
+    
+
 
     <div class="row mb-3">
         <div class="col-lg-3 mt-2">

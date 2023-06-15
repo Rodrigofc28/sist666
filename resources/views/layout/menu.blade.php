@@ -1,32 +1,32 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-    <a class="navbar-brand mr-1" href="{{ route('home') }}">Laudos Balísticos</a>
-    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-        <i class="fa fa-bars"></i>
-    </button>
+    <p class="navbar-brand mr-1" >WEB ANUNCIOS</p>
+   
 </nav>
 
 <div id="wrapper">
     <!-- Sidebar -->
     <ul class="sidebar navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('dashboard') }}">
+            <a class="nav-link" id="dashbord" href="{{ route('dashboard') }}">
                 <i class="fa fa-fw fa-home"></i>
-                <span>Dashboard</span>
+                <span>VER ANUNCIOS</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('laudos.create') }}">
+            <a class="nav-link" id="formulario" href="{{ route('laudos.create') }}">
                 <i class="fa fa-fw fa-file"></i>
-                <span>Novo Laudo</span></a>
+                <span>DIVULGAR</span>
+                
+            </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('laudos.index') }}">
-                <i class="fa fa-fw fa-folder-open"></i>
-                <span>Meus Laudos</span></a>
-        </li>
+        <!-- <li class="nav-item">
+            <a class="nav-link" id="formulario-inspecao" href="{{ route('laudos.formulario') }}">
+            <i class="fa fa-fw fa-file"></i>
+                <span>Formulario de inspeção</span></a>
+        </li> -->
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
+            <a class="nav-link" href="{{ route('logout') }}" id="logout" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
                 <i class="fa fa-fw fa-sign-out-alt"></i>
                 <span>{{ __('Logout') }}</span>

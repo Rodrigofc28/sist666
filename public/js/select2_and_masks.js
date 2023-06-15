@@ -51,4 +51,6 @@ $(document).ready(function () {
 
 $(".tamanho").mask('9,999');
 $(".quantidade").mask('999,9');
+$(".rep").mask('999999/2099');
+$(".cep").mask('99999999');
 
